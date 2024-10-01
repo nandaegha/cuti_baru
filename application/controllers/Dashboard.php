@@ -14,28 +14,28 @@ class Dashboard extends CI_Controller {
     {
         if ($this->session->userdata('logged_in') == true && in_array($this->session->userdata('id_role'), [3, 4, 5])) {
             $data = [];
-
+		
             // Logika untuk pimpinan1
             if ($this->session->userdata('id_role') == 3) {
-                $data['cuti'] = $this->m_cuti->count_all_cuti()->row_array() ?? [];
-                $data['cuti_acc'] = $this->m_cuti->count_all_cuti_acc()->row_array() ?? [];
-                $data['cuti_confirm'] = $this->m_cuti->count_all_cuti_confirm()->row_array() ?? [];
-                $data['cuti_reject'] = $this->m_cuti->count_all_cuti_reject()->row_array() ?? [];
+                $data['cuti'] = $this->m_cuti->count_all_cuti() ?? 0;
+                $data['cuti_acc'] = $this->m_cuti->count_all_cuti_acc() ?? 0;
+                $data['cuti_confirm'] = $this->m_cuti->count_all_cuti_confirm() ?? 0;
+                $data['cuti_reject'] = $this->m_cuti->count_all_cuti_reject() ?? 0;
 
-                $data['pegawai'] = $this->m_user->count_all_pegawai()->row_array() ?? [];
-                $data['admin'] = $this->m_user->count_all_admin()->row_array() ?? [];
+                $data['pegawai'] = $this->m_user->count_all_pegawai() ?? 0;
+                $data['admin'] = $this->m_user->count_all_admin() ?? 0;
             }
 
             // Logika untuk pimpinan2
             elseif ($this->session->userdata('id_role') == 4) {
-                $data['cuti_confirm'] = $this->m_cuti->count_all_cuti_confirm()->row_array() ?? [];
-                $data['pegawai'] = $this->m_user->count_all_pegawai()->row_array() ?? [];
+                $data['cuti_confirm'] = $this->m_cuti->count_all_cuti_confirm() ?? 0;
+                $data['pegawai'] = $this->m_user->count_all_pegawai() ?? 0;
             }
 
             // Logika untuk pimpinan3
             elseif ($this->session->userdata('id_role') == 5) {
-                $data['cuti_acc'] = $this->m_cuti->count_all_cuti_acc()->row_array() ?? [];
-                $data['cuti_reject'] = $this->m_cuti->count_all_cuti_reject()->row_array() ?? [];
+                $data['cuti_acc'] = $this->m_cuti->count_all_cuti_acc() ?? 0;
+                $data['cuti_reject'] = $this->m_cuti->count_all_cuti_reject() ?? 0;
             }
 
             $this->load->view('pimpinan/dashboard', $data);
@@ -48,11 +48,11 @@ class Dashboard extends CI_Controller {
     public function dashboard_admin()
     {
         if ($this->session->userdata('logged_in') == true && $this->session->userdata('id_role') == 2) {
-            $data['cuti'] = $this->m_cuti->count_all_cuti()->row_array() ?? [];
-            $data['cuti_acc'] = $this->m_cuti->count_all_cuti_acc()->row_array() ?? [];
-            $data['cuti_confirm'] = $this->m_cuti->count_all_cuti_confirm()->row_array() ?? [];
-            $data['cuti_reject'] = $this->m_cuti->count_all_cuti_reject()->row_array() ?? [];
-            $data['pegawai'] = $this->m_user->count_all_pegawai()->row_array() ?? [];
+            $data['cuti'] = $this->m_cuti->count_all_cuti() ?? [];
+            $data['cuti_acc'] = $this->m_cuti->count_all_cuti_acc() ?? [];
+            $data['cuti_confirm'] = $this->m_cuti->count_all_cuti_confirm() ?? [];
+            $data['cuti_reject'] = $this->m_cuti->count_all_cuti_reject() ?? [];
+            $data['pegawai'] = $this->m_user->count_all_pegawai() ?? [];
 
             $this->load->view('admin/dashboard', $data);
         } else {
@@ -81,7 +81,7 @@ class Dashboard extends CI_Controller {
                           ->from('pegawai')
                           ->where('id', $id_user)
                           ->get()
-                          ->row_array();
+                          ;
             $data['jenis_kelamin'] = $jenis_kelamin['jenis_kelamin'] ?? 'Tidak Diketahui';
 
             // Memuat view dashboard untuk pegawai
