@@ -2,23 +2,23 @@
 <html lang="en">
 
 <head>
-    <?php $this->load->view("super_admin/components/header.php") ?>
+    <?php $this->load->view("pimpinan/components/header.php") ?>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
         <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
+        <!-- <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="<?= base_url(); ?>assets/admin_lte/dist/img/Loading.png" alt="AdminLTELogo" height="60" width="60">
-        </div>
+        </div> -->
 
         <!-- Navbar -->
-        <?php $this->load->view("super_admin/components/navbar.php") ?>
+        <?php $this->load->view("pimpinan/components/navbar.php") ?>
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <?php $this->load->view("super_admin/components/sidebar.php") ?>
+        <?php $this->load->view("pimpinan/components/sidebar.php") ?>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -49,14 +49,14 @@
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3><?= $cuti['total_cuti'] ?></h3>
+                                    <h3><?= $cuti ?></h3>
 
                                     <p>Data Cuti</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-bag"></i>
                                 </div>
-                                <a href="<?= base_url(); ?>Cuti/view_super_admin" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?= base_url(); ?>Cuti/view_pimpinan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -64,14 +64,14 @@
                             <!-- small box -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3><?= $cuti_confirm['total_cuti'] ?></h3>
+                                    <h3><?= $cuti_confirm ?></h3>
 
                                     <p>Data Cuti Menuggu Konfirmasi</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-stats-bars"></i>
                                 </div>
-                                <a href="<?= base_url(); ?>Cuti/view_super_admin" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?= base_url(); ?>Cuti/view_pimpinan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -80,14 +80,14 @@
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3><?= $cuti_acc['total_cuti'] ?></h3>
+                                    <h3><?= $cuti_acc ?></h3>
 
                                     <p>Data Cuti Diterima</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-stats-bars"></i>
                                 </div>
-                                <a href="<?= base_url(); ?>Cuti/view_super_admin" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?= base_url(); ?>Cuti/view_pimpinan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -95,14 +95,14 @@
                             <!-- small box -->
                             <div class="small-box bg-danger">
                                 <div class="inner">
-                                    <h3><?= $cuti_reject['total_cuti'] ?></h3>
+                                    <h3><?= $cuti_reject ?></h3>
 
                                     <p>Data Cuti Ditolak</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-person-add"></i>
                                 </div>
-                                <a href="<?= base_url(); ?>Cuti/view_super_admin" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?= base_url(); ?>Cuti/view_pimpinan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -110,14 +110,14 @@
                             <!-- small box -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3><?= $pegawai['total_user'] ?></h3>
+                                    <h3><?= $pegawai ?></h3>
 
                                     <p>Pegawai</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-pie-graph"></i>
                                 </div>
-                                <a href="<?= base_url(); ?>Pegawai/view_super_admin" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?= base_url(); ?>Pegawai/view_pimpinan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -126,14 +126,14 @@
                             <!-- small box -->
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3><?= $admin['total_user'] ?></h3>
+                                    <h3><?= $admin ?></h3>
 
                                     <p>Admin</p>
                                 </div>
                                 <div class="icon">
                                     <i class="ion ion-pie-graph"></i>
                                 </div>
-                                <a href="<?= base_url(); ?>Admin/view_super_admin" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?= base_url(); ?>Admin/view_pimpinan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -156,7 +156,7 @@
     </div>
     <!-- ./wrapper -->
 
-    <?php $this->load->view("super_admin/components/js.php") ?>
+    <?php $this->load->view("pimpinan/components/js.php") ?>
 </body>
 
 </html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Okt 2024 pada 02.10
+-- Waktu pembuatan: 12 Okt 2024 pada 13.18
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.1.25
 
@@ -37,7 +37,7 @@ CREATE TABLE `cuti` (
   `lama_cuti` int(11) NOT NULL DEFAULT 0,
   `sisa_cuti` int(11) NOT NULL DEFAULT 0,
   `alasan` text DEFAULT NULL,
-  `status` enum('pending','disetujui','ditolak') DEFAULT 'pending',
+  `id_persetujuan` int(11) DEFAULT NULL,
   `catatan_pimpinan` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -45,8 +45,8 @@ CREATE TABLE `cuti` (
 -- Dumping data untuk tabel `cuti`
 --
 
-INSERT INTO `cuti` (`id`, `id_user`, `id_jenis_cuti`, `tanggal_pengajuan`, `tanggal_mulai`, `tanggal_selesai`, `lama_cuti`, `sisa_cuti`, `alasan`, `status`, `catatan_pimpinan`) VALUES
-(1, 4, 1, '2024-09-24', '2024-10-01', '2024-10-07', 7, 5, 'Cuti tahunan untuk istirahat', 'disetujui', 'Cuti yang diajukan disetujui');
+INSERT INTO `cuti` (`id`, `id_user`, `id_jenis_cuti`, `tanggal_pengajuan`, `tanggal_mulai`, `tanggal_selesai`, `lama_cuti`, `sisa_cuti`, `alasan`, `id_persetujuan`, `catatan_pimpinan`) VALUES
+(1, 4, 1, '2024-09-24', '2024-10-01', '2024-10-07', 7, 5, 'Cuti tahunan untuk istirahat', 1, 'Cuti yang diajukan disetujui');
 
 --
 -- Trigger `cuti`
@@ -189,8 +189,8 @@ CREATE TABLE `pegawai_ruangan_jabatan` (
 
 CREATE TABLE `persetujuan` (
   `id` int(11) NOT NULL,
-  `id_pengajuan_cuti` int(11) NOT NULL,
-  `id_cuti` int(11) DEFAULT NULL,
+  `id_cuti` int(11) NOT NULL,
+  `id_jenis_cuti` int(11) DEFAULT NULL,
   `id_pimpinan1` int(11) NOT NULL,
   `id_pimpinan2` int(11) NOT NULL,
   `id_pimpinan3` int(11) NOT NULL,
@@ -204,8 +204,8 @@ CREATE TABLE `persetujuan` (
 -- Dumping data untuk tabel `persetujuan`
 --
 
-INSERT INTO `persetujuan` (`id`, `id_pengajuan_cuti`, `id_cuti`, `id_pimpinan1`, `id_pimpinan2`, `id_pimpinan3`, `status_pimpinan1`, `status_pimpinan2`, `status_pimpinan3`, `tanggal_persetujuan`) VALUES
-(1, 1, 1, 2, 3, 4, 'disetujui', 'pending', 'pending', NULL);
+INSERT INTO `persetujuan` (`id`, `id_cuti`, `id_jenis_cuti`, `id_pimpinan1`, `id_pimpinan2`, `id_pimpinan3`, `status_pimpinan1`, `status_pimpinan2`, `status_pimpinan3`, `tanggal_persetujuan`) VALUES
+(1, 1, 1, 2, 3, 4, 'disetujui', 'disetujui', 'disetujui', '2024-09-26');
 
 -- --------------------------------------------------------
 
@@ -309,7 +309,8 @@ INSERT INTO `users` (`id`, `id_role`, `username`, `email`, `password`, `nama`) V
 (3, 5, 'siti', 'sitikk1@gmail.com', 'siti123', 'Siti Rahmawati'),
 (4, 1, 'rina', 'rina01@gmail.com', 'rina', 'Rina Wijaya'),
 (5, 1, 'dedi', 'dedi02@gmail.com', 'dedi', 'Dedi Suryadi'),
-(6, 1, 'lina', 'lina03@gmail.com', 'lina', 'Lina Agustina');
+(6, 1, 'lina', 'lina03@gmail.com', 'lina', 'Lina Agustina'),
+(7, 2, 'admin', 'admin02@gmail.com', 'admin123', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -321,7 +322,8 @@ INSERT INTO `users` (`id`, `id_role`, `username`, `email`, `password`, `nama`) V
 ALTER TABLE `cuti`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`id_user`),
-  ADD KEY `id_jenis_cuti` (`id_jenis_cuti`);
+  ADD KEY `id_jenis_cuti` (`id_jenis_cuti`),
+  ADD KEY `id_persetujuan` (`id_persetujuan`);
 
 --
 -- Indeks untuk tabel `jabatan`
@@ -357,11 +359,11 @@ ALTER TABLE `pegawai_ruangan_jabatan`
 --
 ALTER TABLE `persetujuan`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_pengajuan_cuti` (`id_pengajuan_cuti`),
+  ADD KEY `id_pengajuan_cuti` (`id_cuti`),
   ADD KEY `id_pimpinan1` (`id_pimpinan1`),
   ADD KEY `id_pimpinan2` (`id_pimpinan2`),
   ADD KEY `id_pimpinan3` (`id_pimpinan3`),
-  ADD KEY `fk_id_cuti` (`id_cuti`);
+  ADD KEY `fk_id_cuti` (`id_jenis_cuti`);
 
 --
 -- Indeks untuk tabel `pimpinan_ruangan`
@@ -454,7 +456,7 @@ ALTER TABLE `ruangan`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -465,7 +467,8 @@ ALTER TABLE `users`
 --
 ALTER TABLE `cuti`
   ADD CONSTRAINT `cuti_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `cuti_ibfk_2` FOREIGN KEY (`id_jenis_cuti`) REFERENCES `jenis_cuti` (`id`);
+  ADD CONSTRAINT `cuti_ibfk_2` FOREIGN KEY (`id_jenis_cuti`) REFERENCES `jenis_cuti` (`id`),
+  ADD CONSTRAINT `id_persetujuan` FOREIGN KEY (`id_persetujuan`) REFERENCES `persetujuan` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `pegawai`
@@ -487,8 +490,8 @@ ALTER TABLE `pegawai_ruangan_jabatan`
 -- Ketidakleluasaan untuk tabel `persetujuan`
 --
 ALTER TABLE `persetujuan`
-  ADD CONSTRAINT `fk_id_cuti` FOREIGN KEY (`id_cuti`) REFERENCES `cuti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `persetujuan_ibfk_1` FOREIGN KEY (`id_pengajuan_cuti`) REFERENCES `cuti` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_id_cuti` FOREIGN KEY (`id_jenis_cuti`) REFERENCES `cuti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `persetujuan_ibfk_1` FOREIGN KEY (`id_cuti`) REFERENCES `cuti` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `persetujuan_ibfk_2` FOREIGN KEY (`id_pimpinan1`) REFERENCES `pegawai` (`id`),
   ADD CONSTRAINT `persetujuan_ibfk_3` FOREIGN KEY (`id_pimpinan2`) REFERENCES `pegawai` (`id`),
   ADD CONSTRAINT `persetujuan_ibfk_4` FOREIGN KEY (`id_pimpinan3`) REFERENCES `pegawai` (`id`);

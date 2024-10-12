@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php $this->load->view("super_admin/components/header.php") ?>
+    <?php $this->load->view("pimpinan/components/header.php") ?>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -42,11 +42,11 @@
         </div>
 
         <!-- Navbar -->
-        <?php $this->load->view("super_admin/components/navbar.php") ?>
+        <?php $this->load->view("pimpinan/components/navbar.php") ?>
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <?php $this->load->view("super_admin/components/sidebar.php") ?>
+        <?php $this->load->view("pimpinan/components/sidebar.php") ?>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -72,7 +72,7 @@
             <section class="content">
                 <div class="container-fluid">
 
-                    <form action="<?=base_url();?>Settings/settings_account_super_admin" method="POST">
+                    <form action="<?=base_url();?>Settings/settings_account_pimpinan" method="POST">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" id="username" name="username"
@@ -105,7 +105,7 @@
     </div>
     <!-- ./wrapper -->
 
-    <?php $this->load->view("super_admin/components/js.php") ?>
+    <?php $this->load->view("pimpinan/components/js.php") ?>
 </body>
 
 </html>

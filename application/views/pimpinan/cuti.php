@@ -95,7 +95,7 @@
                                                 $no++;
                                                 $id_cuti = $i['id_cuti'];
                                                 $id_user = $i['id_user'];
-                                                $nama = $i['nama']; 
+                                                $nama = $i['nama'];
                                                 $alasan = $i['alasan'];
                                                 $tgl_diajukan = $i['tgl_diajukan'];
                                                 $mulai = $i['mulai'];

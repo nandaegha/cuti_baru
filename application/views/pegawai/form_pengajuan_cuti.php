@@ -125,7 +125,7 @@
         function calculateLeaveDuration() {
             const mulai = document.getElementById('mulai').value;
             const berakhir = document.getElementById('berakhir').value;
-            
+
             if (mulai && berakhir) {
                 const startDate = new Date(mulai);
                 const endDate = new Date(berakhir);

@@ -49,7 +49,7 @@
                     ?>
                     <form action="<?= base_url();?>Settings/lengkapi_data" method="POST">
                         <input type="hidden" name="id_user" value="<?= $this->session->userdata('id_user'); ?>">
-                        
+
                             <div class="form-group">
                                 <label for="nama">Nama</label>
                                 <input type="text" class="form-control" id="nama" name="nama" value="<?= $users['nama']; ?>" required>

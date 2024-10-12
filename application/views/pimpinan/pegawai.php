@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php $this->load->view("super_admin/components/header.php") ?>
+    <?php $this->load->view("pimpinan/components/header.php") ?>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -75,11 +75,11 @@
         </div>
 
         <!-- Navbar -->
-        <?php $this->load->view("super_admin/components/navbar.php") ?>
+        <?php $this->load->view("pimpinan/componeints/navbar.php") ?>
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <?php $this->load->view("super_admin/components/sidebar.php") ?>
+        <?php $this->load->view("pimpinan/components/sidebar.php") ?>
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -190,7 +190,7 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <form
-                                                                action="<?php echo base_url()?>Pegawai/super_admin_hapus_pegawai"
+                                                                action="<?php echo base_url()?>Pegawai/pimpinan_hapus_pegawai"
                                                                 method="post" enctype="multipart/form-data">
                                                                 <div class="row">
                                                                     <div class="col-md-12">
@@ -227,7 +227,7 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <form
-                                                                action="<?=base_url();?>Pegawai/super_admin_edit_pegawai"
+                                                                action="<?=base_url();?>Pegawai/pimpinan_edit_pegawai"
                                                                 method="POST">
                                                                 <input type="text" value="<?= $id_user ?>"
                                                                     name="id_user" hidden>
@@ -322,7 +322,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="<?=base_url();?>Pegawai/super_admin_tambah_pegawai" method="POST">
+                            <form action="<?=base_url();?>Pegawai/pimpinan_tambah_pegawai" method="POST">
                                 <div class="form-group">
                                     <label for="username">Username</label>
                                     <input type="text" class="form-control" id="username" aria-describedby="username"
@@ -384,7 +384,7 @@
     </div>
     <!-- ./wrapper -->
 
-    <?php $this->load->view("super_admin/components/js.php") ?>
+    <?php $this->load->view("pimpinan/components/js.php") ?>
 </body>
 
 </html>

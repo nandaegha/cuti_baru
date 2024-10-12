@@ -1,10 +1,22 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @property CI_Session $session
+ * @property CI_Input $input
+ * @property m_user $m_user
+ * @property m_cuti $m_cuti
+ * @property m_jenis_cuti $m_jenis_cuti
+ * @property Rekap_model $Rekap_model
+ * @property Cuti_model $Cuti_model
+ * @var PHPExcell $excell
+ */
+
 class Cuti extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+		$this->load->library('session');
         $this->load->model('m_cuti');
         $this->load->model('m_user');
         $this->load->model('m_jenis_cuti');
@@ -25,11 +37,11 @@ class Cuti extends CI_Controller {
             elseif ($this->session->userdata('id_role') == 4) {
                 // Contoh: Pimpinan2 hanya melihat cuti dari pegawai departemen tertentu
                 $id_departemen = $this->session->userdata('id_departemen');
-                $data['cuti'] = $this->m_cuti->get_cuti_by_departemen($id_departemen)->result_array();
+                $data['cuti'] = $this->m_cuti->get_cuti_by_id($id_user)->result_array();
             }
             // Pimpinan3 (id_role = 6) mungkin hanya bisa melihat cuti yang sedang menunggu konfirmasi
             elseif ($this->session->userdata('id_role') == 5) {
-                $data['cuti'] = $this->m_cuti->get_pending_cuti()->result_array();
+                $data['cuti'] = $this->m_cuti->get_cuti_by_id($id_user)->result_array();
             }
 
             $this->load->view('Cuti/view_pimpinan', $data);
@@ -49,8 +61,8 @@ class Cuti extends CI_Controller {
             $alasan_verifikasi = $this->input->post("alasan_verifikasi");
 
             // Lakukan verifikasi cuti, apakah disetujui atau ditolak berdasarkan $status
-            $hasil = $this->m_cuti->confirm_cuti($id_cuti, $status, $alasan_verifikasi);
-            
+            $hasil = $this->m_cuti->confirm_cuti($id_cuti, $status);
+
             if ($hasil == false) {
                 $this->session->set_flashdata('eror_input', 'eror_input');
             } else {
@@ -77,12 +89,29 @@ class Cuti extends CI_Controller {
 	        $this->session->set_flashdata('loggin_err', 'loggin_err');
 	        redirect('Login/index');
 	    }
+
+		foreach ($data['cuti_pegawai'] as &$cuti) {
+			$persetujuan = $this->m_cuti->get_persetujuan_info($cuti['id_persetujuan']);
+			$cuti['status_pimpinan1'] = $persetujuan['status_pimpinan1'];
+			$cuti['status_pimpinan2'] = $persetujuan['status_pimpinan2'];
+			$cuti['status_pimpinan3'] = $persetujuan['status_pimpinan3'];
+
+			// Jika ketiga pimpinan sudah menyetujui
+			if ($persetujuan['status_pimpinan1'] == 'disetujui' &&
+				$persetujuan['status_pimpinan2'] == 'disetujui' &&
+				$persetujuan['status_pimpinan3'] == 'disetujui') {
+				$cuti['can_print'] = true;  // Aktifkan tombol cetak
+			} else {
+				$cuti['can_print'] = false;
+			}
+		}
+
 	}
-    
+
 	public function view($id_user) {
 	    // Fetch user data based on the user ID
 	    $data['cuti'] = $this->m_cuti->get_all_cuti_by_id_user($id_user);
-	    
+
 	    // Ensure that you retrieve the specific cuti ID if it's available
 	    if (!empty($data['cuti'])) {
 	        foreach ($data['cuti'] as $cuti) {
@@ -124,7 +153,7 @@ class Cuti extends CI_Controller {
         $id_cuti = $this->input->post("id_cuti");
 
         $hasil = $this->m_cuti->delete_cuti($id_cuti);
-        
+
         if ($hasil == false) {
             $this->session->set_flashdata('eror_hapus', 'eror_hapus');
         } else {
@@ -138,16 +167,16 @@ class Cuti extends CI_Controller {
 	    $id_cuti = $this->input->post("id_cuti");
 	    $alasan = $this->input->post("alasan");
 	    $jenis_cuti = $this->input->post("jenis_cuti");
-	    $tgl_diajukan = $this->input->post("tgl_diajukan");
-	    $mulai = $this->input->post("mulai");
-	    $berakhir = $this->input->post("berakhir");
+	    $tanggal_pengajuan = $this->input->post("tanggal_pengajuan");
+	    $tanggal_mulai = $this->input->post("tanggal_mulai");
+	    $tanggal_selesai = $this->input->post("tanggal_selesai");
 
 	    $id_user = $this->session->userdata('id_user');
 	    $id_role = $this->session->userdata('id_role');
 
 	    // Admin bisa mengedit semua cuti, pegawai hanya cuti mereka sendiri
 	    if ($id_role == 2) { // Admin
-	        $hasil = $this->m_cuti->update_cuti($alasan, $jenis_cuti, $tgl_diajukan, $mulai, $berakhir, $id_cuti);
+	        $hasil = $this->m_cuti->update_cuti($alasan, $jenis_cuti, $tanggal_pengajuan, $tanggal_mulai, $tanggal_selesai, $id_cuti);
 	        if ($hasil == false) {
 	            $this->session->set_flashdata('eror_edit', 'eror_edit');
 	        } else {
@@ -158,7 +187,7 @@ class Cuti extends CI_Controller {
 	        $cuti_pegawai = $this->m_cuti->get_cuti_by_id($id_cuti)->row_array();
 
 	        if ($cuti_pegawai['id_user'] == $id_user) {
-	            $hasil = $this->m_cuti->update_cuti($alasan, $jenis_cuti, $tgl_diajukan, $mulai, $berakhir, $id_cuti);
+	            $hasil = $this->m_cuti->update_cuti($alasan, $jenis_cuti, $tanggal_pengajuan, $tanggal_mulai, $tanggal_selesai, $id_cuti);
 	            if ($hasil == false) {
 	                $this->session->set_flashdata('eror_edit', 'eror_edit');
 	            } else {

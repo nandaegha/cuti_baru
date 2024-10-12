@@ -1,16 +1,23 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @property CI_Session $session
+ * @property CI_Input $input
+ * @property m_user $m_user
+ */
 class Login extends CI_Controller {
 
     public function __construct()
     {
         parent::__construct();
+		$this->load->library('session');
         $this->load->model('m_user');
     }
 
     public function index()
     {
+		$user = $this->session->userdata('user');
         $this->load->view('login');
     }
 
@@ -20,9 +27,9 @@ class Login extends CI_Controller {
         $password = $this->input->post("password");
 
         $user = $this->m_user->cek_login($username);
-
-        if($user->num_rows()>0){
-            $user = $user->row_array();
+        //var_dump($user);
+        if($user){
+           // $user = $user->row_array();
 
             if($user['password'] == $password){
 

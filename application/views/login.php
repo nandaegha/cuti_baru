@@ -48,7 +48,7 @@
     });
     </script>
     <?php } ?>
-    
+
     <?php if ($this->session->flashdata('eror')){ ?>
     <script>
     swal({
@@ -111,7 +111,6 @@
 						<center>
 						</center>
                     </span>
-					
 
                     <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
                         <input class="input100" type="text" name="username" placeholder="username">

@@ -86,7 +86,6 @@
                                                 <th>Tanggal Berakhir</th>
                                                 <th>Lama Cuti</th>
                                                 <th>Status Cuti</th>
-                                                <th>Alasan Verifikasi</th>
                                                 <th>Cetak Surat</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -97,17 +96,16 @@
                                                 foreach($cuti as $i) :
                                                     $no++;
                                                     // Ensure that the ID variables are correctly fetched
-                                                    $id_cuti = isset($i['id_cuti']) ? $i['id_cuti'] : 'N/A'; 
-                                                    $id_user = isset($i['id_user']) ? $i['id_user'] : 'N/A'; 
-                                                    $nama_user = isset($i['nama_user']) ? $i['nama_user'] : 'N/A'; 
+                                                    $id_cuti = isset($i['id_cuti']) ? $i['id_cuti'] : 'N/A';
+                                                    $id_user = isset($i['id_user']) ? $i['id_user'] : 'N/A';
+                                                    $nama_user = isset($i['nama_user']) ? $i['nama_user'] : 'N/A';
                                                     $jenis_cuti = isset($i['nama_jenis_cuti']) ? $i['nama_jenis_cuti'] : 'N/A';
-                                                    $alasan = isset($i['alasan']) ? $i['alasan'] : 'N/A'; 
-                                                    $tgl_diajukan = isset($i['tgl_diajukan']) ? date('d-m-Y', strtotime($i['tgl_diajukan'])) : 'N/A';
-                                                    $mulai = isset($i['mulai']) ? date('d-m-Y', strtotime($i['mulai'])) : 'N/A';
-                                                    $berakhir = isset($i['berakhir']) ? date('d-m-Y', strtotime($i['berakhir'])) : 'N/A';
-                                                    $lama_cuti = isset($i['lama_cuti']) ? $i['lama_cuti'] : 'N/A'; 
-                                                    $status = isset($i['status']) ? $i['status'] : 'N/A';
-                                                    $status_cuti = ""; // Set status text
+                                                    $alasan = isset($i['alasan']) ? $i['alasan'] : 'N/A';
+                                                    $tgl_diajukan = isset($i['tanggal_pengajuan']) ? date('d-m-Y', strtotime($i['tanggal_pengajuan'])) : 'N/A';
+                                                    $mulai = isset($i['tanggal_mulai']) ? date('d-m-Y', strtotime($i['tanggal_mulai'])) : 'N/A';
+                                                    $berakhir = isset($i['tanggal_selesai']) ? date('d-m-Y', strtotime($i['tanggal_selesai'])) : 'N/A';
+                                                    $lama_cuti = isset($i['lama_cuti']) ? $i['lama_cuti'] : 'N/A';
+                                                    $status_cuti = isset($i['id_persetujuan']) ? $i['id_persetujuan'] : 'N/A';
                                             ?>
                                             <tr>
                                                 <td><?= $no ?></td>
@@ -119,9 +117,8 @@
                                                 <td><?= $berakhir ?></td>
                                                 <td><?= $lama_cuti ?> hari</td>
                                                 <td><?= $status_cuti ?></td>
-                                                <td><?= isset($i['alasan_verifikasi']) ? $i['alasan_verifikasi'] : 'N/A'; ?></td>
                                                 <td>
-                                                    <?php if ($status == 4) { ?>
+                                                    <?php if (isset($status_cuti) && $status_cuti === 'disetujui') { ?>
                                                     <a href="<?= base_url('Cetak/surat_cuti_pdf/' . $id_cuti) ?>" target="_blank" class="btn btn-info">Cetak Surat</a>
                                                     <?php } else { ?>
                                                     <a href="#" class="btn btn-danger">Belum Dapat Mencetak</a>
@@ -129,7 +126,7 @@
                                                 </td>
                                                 <td>
                                                     <!-- Delete Button -->
-                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#hapusModal<?= $id_cuti ?>">
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="hapusModal<?= $id_cuti ?>">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
 

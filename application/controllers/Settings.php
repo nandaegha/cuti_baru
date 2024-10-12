@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @property CI_Session $session
+ * @property CI_Input $input
+ * @property m_user $m_user
+ */
+
 class Settings extends CI_Controller {
 
 	public function __construct()
@@ -18,13 +24,13 @@ class Settings extends CI_Controller {
 	{
 		$this->load->view('admin/settings');
 	}
-	
+
 	public function view_pegawai()
 	{
 		$data['pegawai_data'] = $this->m_user->get_pegawai_by_id($this->session->userdata('id_user'))->result_array();
 		$data['pegawai'] = $this->m_user->get_pegawai_by_id($this->session->userdata('id_user'))->row_array();
 	}
-	
+
 	public function lengkapi_data()
 	{
 		$id = $this->input->post("id");
@@ -44,10 +50,10 @@ class Settings extends CI_Controller {
 			$this->session->set_flashdata('input','input');
 			redirect('Settings/view_pegawai');
 		}
-		
+
 	}
 
-	
+
 	public function settings_account_pimpinan()
 	{
 	    $id = $this->session->userdata('id_user');
@@ -93,7 +99,7 @@ class Settings extends CI_Controller {
 				$this->session->set_flashdata('edit','edit');
 				redirect('Settings/view_admin');
 			}
-			
+
         }else{
             $this->session->set_flashdata('password_err','password_err');
 			redirect('Settings/view_admin');
@@ -119,11 +125,10 @@ class Settings extends CI_Controller {
 				$this->session->set_flashdata('edit','edit');
 				redirect('Settings/view_pegawai');
 			}
-			
+
         }else{
             $this->session->set_flashdata('password_err','password_err');
 			redirect('Settings/view_pegawai');
         }
 	}
-    
 }

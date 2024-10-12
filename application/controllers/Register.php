@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @property CI_Session $session
+ * @property CI_Input $input
+ * @property m_user $m_user
+ */
+
 class Register extends CI_Controller {
 
     public function __construct()

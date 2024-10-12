@@ -122,7 +122,7 @@
                                                 <th>Tanggal Diajukan</th>
                                                 <th>Mulai</th>
                                                 <th>Berakhir</th>
-                                                <th>Status</th>
+                                                <th>Status Cuti</th>
                                                 <th>Cetak Surat</th>
                                                 <th>Aksi</th>
                                             </tr>
