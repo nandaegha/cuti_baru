@@ -26,7 +26,6 @@ class Dashboard extends CI_Controller {
     {
         if ($this->session->userdata('logged_in') == true && in_array($this->session->userdata('id_role'), [3, 4, 5])) {
             $data = [];
-
             // Logika untuk pimpinan1
             if ($this->session->userdata('id_role') == 3) {
                 $data['cuti'] = $this->m_cuti->count_all_cuti() ?: 0;
@@ -88,6 +87,7 @@ class Dashboard extends CI_Controller {
 			$data['cuti_reject'] = $this->m_cuti->count_all_cuti_reject_by_id($id_user) ?: 0;
 
             // Mengambil data pegawai berdasarkan ID user
+
 			$pegawai = $this->m_user->get_pegawai_by_id($id_user);
 			$data['pegawai'] = !empty($pegawai) ? $pegawai : [];
 

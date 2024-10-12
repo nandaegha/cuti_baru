@@ -56,7 +56,7 @@ class M_user extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('users');
-        $this->db->join('pegawai', 'users.id = pegawai.id', 'left');
+        $this->db->join('pegawai', 'users.id = pegawai.id');
         $this->db->where('username', $username);
         return $this->db->get()->row_array();
     }
